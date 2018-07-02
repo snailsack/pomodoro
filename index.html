@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+       
+    <meta charset="UTF-8">
+
+    <style>
+    #tomato {
+        font-size: 180px;
+    }
+    </style>
+</head>
+
+<body id="myBod">
+       
+    <div id="tomato">
+        🍅
+    </div>
+
+    <div id="clock">
+        
+    </div>
+
+    <div id="buttons">
+        <button id='start' onclick='start();' this.onclick=null;>Start</button> 
+        
+        <button id='pause' onclick='pause();' this.onclick=null;>Pause</button> 
+        <button id='reset' onclick='reset();' this.onclick=null;>Reset</button> 
+    </div>
+
+    <script>
+var audio = 
+
+secondsRemaining = 3;
+minutesRemaining = 0;
+const secondsTickDelay = 1000;
+var myVar;
+var redVar;
+var ticker;
+var clock
+
+function secondsTick() {
+    clockDisplay = minutesRemaining.toString().padStart(2,0) + ":" + secondsRemaining.toString().padStart(2,0);
+    updateClock();
+    checkForEnd();
+    if (secondsRemaining === 0){
+        if (minutesRemaining === 00) {
+        
+    }
+       else {secondsRemaining = secondsRemaining + 60;
+        setTimeout(secondsTick, secondsTickDelay)
+        secondsRemaining -= 1;
+
+    minutesTick();
+       }   }
+    
+    else{ 
+        ticker = setTimeout(secondsTick, secondsTickDelay)
+        clock = document.getElementById('clock');
+        clock.textContent = clockDisplay;
+        secondsRemaining -= 1;
+    minutesTick();
+    }
+    // secondsRemaining -= 1;
+    // minutesTick();
+
+   
+}
+
+
+function minutesTick() {
+    updateClock();
+    if (minutesRemaining === 00 && secondsRemaining === 00) {
+        minutesRemaining = 0;
+    }
+    else if (secondsRemaining === 00){
+    minutesRemaining -= 1;
+    }
+}
+
+function start() {
+    myVar = setTimeout(secondsTick, secondsTickDelay);
+    // setTimeout(minutesTick, minutesTickDelay);
+    minutesTick()
+}
+
+function updateClock() {
+    
+    clockDisplay = minutesRemaining.toString().padStart(2,0) + ":" + secondsRemaining.toString().padStart(2,0);
+    clock = document.getElementById('clock');
+    clock.textContent = clockDisplay;
+}
+
+function checkForEnd(){
+    if (clockDisplay === "00:01"){
+      playSound()
+    }
+}
+
+function playSound(){
+    var audio = new Audio("http://soundfxcenter.com/video-games/mario-kart-64/8d82b5_Mario_Kart_64_Mario_Mamma_Mia_Sound_Effect.mp3");
+        audio.play();
+    makeRed();
+}
+function makeRed(){
+    document.getElementById('myBod').style = "background-color: red;";
+
+    redVar = setTimeout(makeWhite,1000);
+}
+function makeWhite(){
+    document.getElementById('myBod').style = "background-color: white;";
+    myVar = setTimeout(makeRed,1000);
+
+}
+function reset() {
+    clearTimeout(myVar);
+    clearTimeout(redVar);
+    document.getElementById('myBod').style = "background-color: white;";
+    minutesRemaining = 25;
+    secondsRemaining = 0;
+    clock.textContent = "25" + ":" + "00";
+}
+function pause() {
+    clearTimeout(ticker);
+    // start = document.getElementById('start');
+    // start.value = "restart";
+}
+updateClock();
+
+    </script>
+</body>
+</html>
